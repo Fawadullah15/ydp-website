@@ -1,0 +1,58 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+import { verifyAuth } from '@/lib/custom-auth';
+
+const allowedRoles = ['SUPER_ADMIN', 'FOUNDER', 'PRESIDENT', 'ADMIN'];
+
+export async function GET(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '10');
+    
+    const skip = (page - 1) * limit;
+
+    const [resources, total] = await Promise.all([
+      prisma.resource.findMany({
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' }
+      }),
+      prisma.resource.count()
+    ]);
+
+    return NextResponse.json({
+      resources,
+      pagination: { total, page, limit, totalPages: Math.ceil(total / limit) }
+    });
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const user = await verifyAuth(req);
+    if (!user || !allowedRoles.includes(user.role)) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const body = await req.json();
+
+    const resource = await prisma.resource.create({
+      data: {
+        title: body.title,
+        description: body.description,
+        fileUrl: body.fileUrl,
+        fileType: body.fileType || 'pdf',
+        fileSize: body.fileSize,
+        type: body.type || 'DOCUMENT',
+        isPublic: body.isPublic ?? true
+      }
+    });
+
+    return NextResponse.json(resource, { status: 201 });
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}

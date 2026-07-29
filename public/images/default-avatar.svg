@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+  <title id="title">Default profile avatar</title>
+  <desc id="desc">Professional blue generic profile avatar</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b2a6b"/>
+      <stop offset="1" stop-color="#00bcd4"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="320" fill="url(#background)"/>
+  <circle cx="160" cy="120" r="58" fill="#ffffff" fill-opacity=".92"/>
+  <path d="M55 292c12-70 58-107 105-107s93 37 105 107" fill="#ffffff" fill-opacity=".92"/>
+</svg>

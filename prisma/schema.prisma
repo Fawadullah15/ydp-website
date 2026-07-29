@@ -1,0 +1,537 @@
+// This is your Prisma schema file
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// =================== AUTH & USERS ===================
+
+model User {
+  id                String    @id @default(cuid())
+  name              String?
+  email             String    @unique
+  emailVerified     DateTime?
+  image             String?
+  password          String?
+  role              String @default("EDITOR")
+  isActive          Boolean   @default(true)
+  resetToken        String?   @unique
+  resetTokenExpiry  DateTime?
+  verifyToken       String?   @unique
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  accounts          Account[]
+  sessions          Session[]
+  newsArticles      News[]
+  events            Event[]
+  activityLogs      ActivityLog[]
+  provinceAdmin     Province?  @relation("ProvinceAdmin")
+
+  @@map("users")
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  
+  access_token       String?  
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+
+
+// =================== MEMBERS ===================
+
+model Member {
+  id              String          @id @default(cuid())
+  memberId        String          @unique // YDP-2024-XXXX
+  firstName       String
+  lastName        String
+  email           String          @unique
+  phone           String
+  cnic            String?         @unique
+  dateOfBirth     DateTime?
+  gender          String?
+  address         String?         
+  city            String?
+  province        String?
+  education       String?
+  occupation      String?
+  skills          String?         
+  bio             String?         
+  photo           String?
+  status          String @default("PENDING")
+  qrCode          String?         @unique
+  membershipType  String @default("GENERAL")
+  joinedAt        DateTime        @default(now())
+  approvedAt      DateTime?
+  expiresAt       DateTime?
+  notes           String?         
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  // Relations
+  provinceId      String?
+  memberProvince  Province?       @relation(fields: [provinceId], references: [id])
+  certificates    Certificate[]
+  eventRegs       EventRegistration[]
+
+  @@map("members")
+}
+
+
+
+
+
+
+
+// =================== PROVINCES & DISTRICTS ===================
+
+model Province {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?  
+  capital     String?
+  image       String?
+  logo        String?
+  adminId     String?  @unique
+  admin       User?    @relation("ProvinceAdmin", fields: [adminId], references: [id])
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  districts   District[]
+  members     Member[]
+  leadership  LeadershipProfile[]
+  events      Event[]
+  news        News[]
+  galleryAlbums GalleryAlbum[]
+
+  @@map("provinces")
+}
+
+model District {
+  id         String   @id @default(cuid())
+  name       String
+  provinceId String
+  province   Province @relation(fields: [provinceId], references: [id])
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+
+  @@map("districts")
+}
+
+// =================== LEADERSHIP ===================
+
+model LeadershipProfile {
+  id           String    @id @default(cuid())
+  name         String
+  position     String
+  bio          String?   
+  photo        String?
+  email        String?
+  phone        String?
+  facebook     String?
+  twitter      String?
+  linkedin     String?
+  instagram    String?
+  level        String @default("NATIONAL")
+  sortOrder    Int         @default(0)
+  isActive     Boolean     @default(true)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  // Relations
+  provinceId   String?
+  province     Province?   @relation(fields: [provinceId], references: [id])
+
+  @@map("leadership_profiles")
+}
+
+
+
+// =================== EVENTS ===================
+
+model Event {
+  id            String        @id @default(cuid())
+  title         String
+  slug          String        @unique
+  description   String?       
+  content       String?       
+  startDate     DateTime
+  endDate       DateTime?
+  venue         String?
+  address       String?       
+  city          String?
+  image         String?
+  coverImage    String?
+  status        String @default("UPCOMING")
+  type          String @default("WORKSHOP")
+  maxAttendees  Int?
+  isPublic      Boolean       @default(true)
+  registrationOpen Boolean   @default(true)
+  registrationMode String    @default("INTERNAL") // INTERNAL, EXTERNAL, CLOSED
+  registrationLink String?
+  registrationDeadline DateTime?
+  speakers      String?        // JSON array
+  schedule      String?        // JSON array  
+  metaTitle     String?
+  metaDesc      String?       
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Relations
+  authorId      String
+  author        User          @relation(fields: [authorId], references: [id])
+  provinceId    String?
+  province      Province?     @relation(fields: [provinceId], references: [id])
+  registrations EventRegistration[]
+  gallery       GalleryItem[]
+  certificates  Certificate[]
+
+  @@map("events")
+}
+
+
+
+
+
+model EventRegistration {
+  id            String              @id @default(cuid())
+  eventId       String
+  event         Event               @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  memberId      String?
+  member        Member?             @relation(fields: [memberId], references: [id])
+  name          String
+  email         String
+  phone         String?
+  status        String @default("REGISTERED")
+  attended      Boolean             @default(false)
+  registeredAt  DateTime            @default(now())
+  notes         String?             
+
+  @@unique([eventId, email])
+  @@map("event_registrations")
+}
+
+
+
+// =================== NEWS & BLOGS ===================
+
+model News {
+  id          String      @id @default(cuid())
+  title       String
+  slug        String      @unique
+  excerpt     String?     
+  content     String?     
+  image       String?
+  coverImage  String?
+  status      String @default("DRAFT")
+  type        String @default("NEWS")
+  tags        String?      // comma-separated
+  views       Int         @default(0)
+  publishedAt DateTime?
+  metaTitle   String?
+  metaDesc    String?     
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relations
+  authorId    String
+  author      User        @relation(fields: [authorId], references: [id])
+  provinceId  String?
+  province    Province?   @relation(fields: [provinceId], references: [id])
+  categoryId  String?
+  category    NewsCategory? @relation(fields: [categoryId], references: [id])
+
+  @@map("news")
+}
+
+
+
+
+
+model NewsCategory {
+  id        String  @id @default(cuid())
+  name      String  @unique
+  slug      String  @unique
+  color     String  @default("#1B2A6B")
+  news      News[]
+
+  @@map("news_categories")
+}
+
+// =================== GALLERY ===================
+
+model GalleryAlbum {
+  id          String        @id @default(cuid())
+  title       String
+  slug        String        @unique
+  description String?       
+  coverImage  String?
+  isPublic    Boolean       @default(true)
+  sortOrder   Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  provinceId  String?
+  province    Province?     @relation(fields: [provinceId], references: [id])
+
+  items       GalleryItem[]
+
+  @@map("gallery_albums")
+}
+
+model GalleryItem {
+  id          String      @id @default(cuid())
+  title       String?
+  description String?     
+  url         String
+  type        String @default("IMAGE")
+  albumId     String?
+  album       GalleryAlbum? @relation(fields: [albumId], references: [id])
+  eventId     String?
+  event       Event?      @relation(fields: [eventId], references: [id])
+  isPublic    Boolean     @default(true)
+  sortOrder   Int         @default(0)
+  createdAt   DateTime    @default(now())
+
+  @@map("gallery_items")
+}
+
+
+
+// =================== CERTIFICATES ===================
+
+model Certificate {
+  id            String              @id @default(cuid())
+  certificateId String              @unique // YDP-CERT-XXXX
+  title         String
+  description   String?             
+  recipientName String
+  recipientEmail String?
+  memberId      String?
+  member        Member?             @relation(fields: [memberId], references: [id])
+  eventId       String?
+  event         Event?              @relation(fields: [eventId], references: [id])
+  templateId    String?
+  template      CertificateTemplate? @relation(fields: [templateId], references: [id])
+  qrCode        String?             @unique
+  verifyUrl     String?
+  issuedAt      DateTime            @default(now())
+  status        String @default("ACTIVE")
+  pdfUrl        String?
+  emailSent     Boolean             @default(false)
+
+  @@map("certificates")
+}
+
+
+
+model CertificateTemplate {
+  id          String   @id @default(cuid())
+  name        String
+  imageUrl    String   // Background template image
+  isDefault   Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  certificates Certificate[]
+
+  @@map("certificate_templates")
+}
+
+// =================== RESOURCES ===================
+
+model Resource {
+  id          String       @id @default(cuid())
+  title       String
+  description String?      
+  fileUrl     String
+  fileType    String       // pdf, doc, etc.
+  fileSize    Int?
+  type        String @default("DOCUMENT")
+  downloads   Int          @default(0)
+  isPublic    Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("resources")
+}
+
+
+
+// =================== VOLUNTEER APPLICATIONS ===================
+
+model VolunteerApplication {
+  id           String              @id @default(cuid())
+  firstName    String
+  lastName     String
+  email        String
+  phone        String
+  city         String?
+  province     String?
+  education    String?
+  skills       String?             
+  motivation   String?             
+  availability String?             
+  status       String @default("PENDING")
+  notes        String?             
+  appliedAt    DateTime            @default(now())
+  reviewedAt   DateTime?
+
+  @@map("volunteer_applications")
+}
+
+
+
+// =================== CONTACTS ===================
+
+model Contact {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String        
+  status    String @default("UNREAD")
+  reply     String?       
+  repliedAt DateTime?
+  createdAt DateTime      @default(now())
+
+  @@map("contacts")
+}
+
+
+
+// =================== NEWSLETTER ===================
+
+model Newsletter {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  name        String?
+  isActive    Boolean  @default(true)
+  subscribedAt DateTime @default(now())
+
+  @@map("newsletter")
+}
+
+// =================== SPONSORS & PARTNERS ===================
+
+model Sponsor {
+  id        String      @id @default(cuid())
+  name      String
+  logo      String?
+  website   String?
+  tier      String @default("BRONZE")
+  isActive  Boolean     @default(true)
+  sortOrder Int         @default(0)
+  createdAt DateTime    @default(now())
+
+  @@map("sponsors")
+}
+
+
+
+model Partner {
+  id          String   @id @default(cuid())
+  name        String
+  logo        String?
+  website     String?
+  description String?  
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@map("partners")
+}
+
+// =================== TESTIMONIALS ===================
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  position  String?
+  photo     String?
+  quote     String   
+  rating    Int      @default(5)
+  isActive  Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@map("testimonials")
+}
+
+// =================== SETTINGS ===================
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String?  
+  type      String   @default("text") // text, json, boolean, number
+  group     String   @default("general")
+  label     String?
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}
+
+// =================== ACTIVITY LOGS ===================
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  action    String
+  entity    String?
+  entityId  String?
+  details   String?  
+  ipAddress String?
+  userAgent String?  
+  createdAt DateTime @default(now())
+
+  @@map("activity_logs")
+}
+
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("newsletter_subscribers")
+}
