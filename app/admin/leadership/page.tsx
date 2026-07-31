@@ -90,10 +90,22 @@ function LeadershipModal({ isOpen, onClose, leader, onSave }: any) {
       const url = leader ? `/api/leadership/${leader.id}` : '/api/leadership';
       const method = leader ? 'PATCH' : 'POST';
       
+      const payload = {
+        ...formData,
+        provinceId: formData.provinceId || null,
+        photo: formData.photo || null,
+        bio: formData.bio || null,
+        email: formData.email || null,
+        phone: formData.phone || null,
+        facebook: formData.facebook || null,
+        twitter: formData.twitter || null,
+        linkedin: formData.linkedin || null,
+        instagram: formData.instagram || null,
+      };
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
       
       if (res.ok) {

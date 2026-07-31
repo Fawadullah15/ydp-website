@@ -38,13 +38,16 @@ function UploadModal({
         const res = await fetch('/api/gallery', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
           type: 'item', mediaType: file.type.startsWith('video/') ? 'VIDEO' : 'IMAGE', url, title: title || file.name, albumId, isPublic: true,
         }) });
-        if (!res.ok) throw new Error('Failed to save media to album');
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || 'Failed to save media to album');
+        }
       }
       onUpload();
       onClose();
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert('Upload failed');
+      alert(err.message || 'Upload failed');
     } finally {
       setUploading(false);
     }

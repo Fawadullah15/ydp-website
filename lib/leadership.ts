@@ -14,5 +14,5 @@ export const leadershipSchema = z.object({
   level: z.enum(['NATIONAL', 'HWO', 'PROVINCIAL', 'DISTRICT', 'AMBASSADOR', 'REGIONAL']).default('NATIONAL'),
   sortOrder: z.coerce.number().int().min(0).max(10000).default(0),
   isActive: z.boolean().default(true),
-  provinceId: z.string().cuid().optional().nullable(),
+  provinceId: z.string().min(1).optional().nullable(),
 });
