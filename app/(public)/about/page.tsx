@@ -91,6 +91,7 @@ export default function AboutPage() {
         </motion.div>
       </section>
 
+
       {/* 3. History & Timeline */}
       <section className="py-20 bg-white dark:bg-slate-800">
         <div className="max-w-7xl mx-auto px-4">
@@ -104,59 +105,74 @@ export default function AboutPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-[#1B2A6B] dark:text-white mb-4">
               Our Journey
             </h2>
-            <p className="text-slate-600 dark:text-slate-400">
+            <p className="text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
               The milestones that shape our history and drive our future.
             </p>
           </motion.div>
 
-          <div className="relative border-l-4 border-[#00BCD4] ml-4 md:mx-auto md:w-1/2 space-y-12 pb-8">
-            {[
-              {
-                year: "2024",
-                title: "YDP Founded",
-                desc: "Founded by Hamza Rehman to empower the youth of Pakistan.",
-              },
-              {
-                year: "2024",
-                title: "HWO Registered",
-                desc: "Human Welfare Organization officially launched to serve humanity.",
-              },
-              {
-                year: "2024",
-                title: "National Expansion",
-                desc: "Successfully expanded operations to all 5 provinces of Pakistan.",
-              },
-              {
-                year: "2024",
-                title: "5000+ Members",
-                desc: "Achieved a milestone of 5000+ registered members nationwide.",
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeInUp}
-                className="relative pl-8 md:pl-0"
-              >
-                <div className="md:w-1/2 md:-ml-8 md:pr-12 md:text-right">
-                  <div className="absolute w-6 h-6 bg-[#FFC107] rounded-full -left-[15px] md:-left-[11px] border-4 border-white dark:border-slate-800" />
-                  <span className="text-[#00BCD4] font-bold text-xl block mb-1">
-                    {item.year}
-                  </span>
-                  <h3 className="text-xl font-bold text-[#1B2A6B] dark:text-white mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-slate-600 dark:text-slate-400">
-                    {item.desc}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {/* Historical Background — Bullet Point Format */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="max-w-4xl mx-auto mb-16 bg-slate-50 dark:bg-slate-900 rounded-3xl p-8 md:p-12 border border-slate-100 dark:border-slate-700 shadow-sm"
+          >
+            <ul className="space-y-7">
+              {[
+                {
+                  year: "2020",
+                  title: "YDP Established",
+                  desc: "Founded as a youth-led initiative under the Human Welfare Organization (HWO), with a vision to empower young Pakistanis through leadership, education, and civic engagement.",
+                },
+                {
+                  year: "2021",
+                  title: "HWO Partnership Formalized",
+                  desc: "Human Welfare Organization officially launched as the parent organization, broadening YDP's community service reach and institutional support.",
+                },
+                {
+                  year: "2022",
+                  title: "Capacity-Building Programs Launched",
+                  desc: "Rolled out workshops, leadership training, career guidance, digital skills development, health awareness campaigns, and environmental initiatives nationwide.",
+                },
+                {
+                  year: "2023",
+                  title: "National Provincial Expansion",
+                  desc: "Successfully expanded operations across all 5 provinces of Pakistan — Punjab, Khyber Pakhtunkhwa, Sindh, Balochistan, and Kashmir — with dedicated provincial teams and councils.",
+                },
+                {
+                  year: "2024",
+                  title: "Institutional Partnerships",
+                  desc: "Established partnerships with public institutions, civil society organizations, and community leaders, amplifying impact through conferences, seminars, and policy dialogues.",
+                },
+                {
+                  year: "2026 – Present",
+                  title: "1000+ Members & Growing",
+                  desc: "Achieved a milestone of 1000+ registered members nationwide, with YDP continuing to grow as Pakistan's premier dynamic youth empowerment platform.",
+                },
+              ].map((point, idx) => (
+                <li key={idx} className="flex items-start gap-4">
+                  <div className="mt-1 shrink-0 w-2.5 h-2.5 rounded-full bg-[#00BCD4]" />
+                  <div>
+                    <span className="inline-block mb-1 text-xs font-bold uppercase tracking-widest text-[#00BCD4]">
+                      {point.year}
+                    </span>
+                    <h4 className="text-base font-bold text-[#1B2A6B] dark:text-white mb-1">
+                      {point.title}
+                    </h4>
+                    <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                      {point.desc}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         </div>
       </section>
+
+
+
 
       {/* 4. Mission */}
       <section className="py-20 px-4 max-w-7xl mx-auto">
