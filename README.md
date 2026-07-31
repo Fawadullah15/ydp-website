@@ -9,7 +9,7 @@ A complete, production-ready website for the Youth Development Program (YDP), Pa
 ## 🌟 Features
 
 ### Public Website
-- 🏠 **Home Page** — Hero, Mission/Vision, Statistics, Leadership, Events, News, Gallery, Partners, Newsletter
+- 🏠 **Home Page** — Hero, Mission/Vision,  Statistics, Leadership, Events, News, Gallery, Partners, Newsletter
 - 👥 **About** — Full history, mission, vision, values, org structure, founder message
 - 🗺️ **5 Province Pages** — Punjab, KPK, Sindh, Balochistan, Kashmir (leadership, districts, activities)
 - 📅 **Events** — Upcoming/past events with registration system
