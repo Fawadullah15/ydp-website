@@ -12,7 +12,6 @@ A complete, production-ready website for the Youth Development Program (YDP), Pa
 - 🏠 **Home Page** — Hero, Mission/Vision, Statistics, Leadership, Events, News, Gallery, Partners, Newsletter
 - 👥 **About** — Full history, mission, vision, values, org structure, founder message
 - 🗺️ **5 Province Pages** — Punjab, KPK, Sindh, Balochistan, Kashmir (leadership, districts, activities)
-- 🏛️ **7 Department Pages** — Dedicated page per department with team and activities
 - 📅 **Events** — Upcoming/past events with registration system
 - 📰 **News & Blog** — Rich articles with categories, tags, search
 - 🖼️ **Gallery** — Albums, lightbox, photos and videos
@@ -131,7 +130,7 @@ npm run dev
 
 **Admin login after seeding:**
 - Email: `admin@ydp.pk`
-- Password: `YDP@Admin2024!`
+- Password: `xyz!`
 
 ⚠️ **Change the admin password immediately after first login!**
 
