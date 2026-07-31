@@ -3,7 +3,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       { hostname: 'localhost' },
-      { hostname: 'res.cloudinary.com' }
+      { hostname: 'res.cloudinary.com' },
+      { hostname: '*.public.blob.vercel-storage.com' }
     ],
     formats: ['image/avif', 'image/webp'],
   },

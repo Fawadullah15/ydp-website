@@ -30,7 +30,10 @@ function UploadModal({
         const data = new FormData();
         data.append('file', file);
         const uploadRes = await fetch('/api/upload', { method: 'POST', body: data });
-        if (!uploadRes.ok) throw new Error('File upload failed');
+        if (!uploadRes.ok) {
+          const errData = await uploadRes.json().catch(() => ({}));
+          throw new Error(errData.error || 'Upload failed');
+        }
         const { url } = await uploadRes.json();
         const res = await fetch('/api/gallery', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
           type: 'item', mediaType: file.type.startsWith('video/') ? 'VIDEO' : 'IMAGE', url, title: title || file.name, albumId, isPublic: true,
