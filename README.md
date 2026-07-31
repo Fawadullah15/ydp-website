@@ -27,7 +27,7 @@ A complete, production-ready website for the Youth Development Program (YDP), Pa
 - 📰 **News** — Rich editor, categories, SEO fields
 - 🖼️ **Gallery** — Album management, drag-and-drop upload
 - 🏆 **Certificates** — Generate, QR code, email, bulk issue
-- ❤️ **Volunteers** — Review applications, approve/reject
+- ❤️ **Volunteers** —   Review applications, approve/reject
 - 👑 **Leadership** — Profile management, reordering
 - 📧 **Contacts** — Inbox, reply, archive
 - ⚙️ **Settings** — Site config, SEO, social links
