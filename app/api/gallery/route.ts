@@ -68,8 +68,7 @@ export async function POST(req: NextRequest) {
     } else if (type === 'item') {
       if (
         typeof body.albumId !== 'string' ||
-        typeof body.url !== 'string' ||
-        (!body.url.startsWith('/uploads/') && !body.url.startsWith('/api/uploads/'))
+        typeof body.url !== 'string'
       ) {
         return NextResponse.json({ error: 'A valid uploaded image and album are required' }, { status: 400 });
       }

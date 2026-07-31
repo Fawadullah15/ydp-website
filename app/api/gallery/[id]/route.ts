@@ -31,9 +31,6 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (body.type === 'item') {
       const data: { title?: string | null; description?: string | null; url?: string; isPublic?: boolean; sortOrder?: number } = {};
       for (const key of ['title', 'description', 'url', 'isPublic', 'sortOrder'] as const) if (body[key] !== undefined) data[key] = body[key];
-      if (data.url && !data.url.startsWith('/uploads/') && !data.url.startsWith('/api/uploads/')) {
-        return NextResponse.json({ error: 'Image URL must be an uploaded file.' }, { status: 400 });
-      }
       return NextResponse.json(await prisma.galleryItem.update({ where: { id }, data }));
     }
     const allowed = ['title', 'description', 'coverImage', 'isPublic', 'sortOrder', 'provinceId'] as const;
