@@ -82,6 +82,17 @@ export async function POST(req: NextRequest) {
       }
     });
 
+    // Create Notification
+    const { createAdminNotification } = await import('@/lib/notifications');
+    await createAdminNotification({
+      title: 'New Contact Form Submission',
+      description: `${data.name} sent a message: ${data.subject}`,
+      category: 'CONTACT',
+      priority: 'LOW',
+      link: '/admin/contacts',
+      relatedId: contact.id,
+    });
+
     // Send emails
     await Promise.all([
       sendMail('infoyda2024@gmail.com', `New Contact Submission: ${data.subject}`, contactNotificationEmail(data)),

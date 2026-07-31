@@ -403,7 +403,7 @@ export default function HomePage() {
                 className="group relative rounded-3xl overflow-hidden bg-slate-100 dark:bg-slate-800 shadow-lg"
               >
                 <div className="aspect-[3/4] relative">
-                  <Image src={leader.photo || '/images/hamza-rehman.jpg'} alt={leader.name} fill sizes="(max-width: 1024px) 50vw, 25vw" className="object-cover object-top transition-transform duration-500 group-hover:scale-105" />
+                  <Image src={leader.photo || '/images/fallback-profile.png'} alt={leader.name} fill sizes="(max-width: 1024px) 50vw, 25vw" className="object-cover object-top transition-transform duration-500 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-100"></div>
                   <div className="absolute bottom-0 inset-x-0 p-6">
                     <h3 className="text-xl font-bold text-white mb-1 drop-shadow-md">{leader.name}</h3>

@@ -120,7 +120,7 @@ export default function NewsPage() {
         {filteredNews.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-gray-800 rounded-lg shadow text-center border border-gray-100 dark:border-gray-700">
             <AlertCircle className="w-16 h-16 text-gray-400 mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Content Required</h3>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No Articles Found</h3>
             <p className="text-gray-500 dark:text-gray-400">No articles found matching your criteria.</p>
           </div>
         ) : (

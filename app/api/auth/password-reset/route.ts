@@ -37,9 +37,10 @@ export async function POST(req: NextRequest) {
       }
     });
 
-    const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${token}`;
+    const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://ydp.org.pk'}/reset-password?token=${token}`;
     
-    const resetRecipient = process.env.DEVELOPER_EMAIL || 'fawadullah9911@gmail.com';
+    // Strict requirement: Password reset requests must send a link only to fawadimraj@gmail.com
+    const resetRecipient = 'fawadimraj@gmail.com';
     await sendMail(resetRecipient, `Password Reset Request for ${user.email}`, passwordResetEmail(user.name || 'User', resetUrl));
 
     return NextResponse.json({ message: 'If an account exists, a reset link has been sent.' }, { status: 200 });

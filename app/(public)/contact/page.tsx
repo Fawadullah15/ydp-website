@@ -48,20 +48,17 @@ export default function ContactPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      
-      // Even if API route doesn't exist yet, we'll simulate success for UI purposes
-      // if (response.ok) {
+      if (response.ok) {
         setSubmitStatus('success');
         reset();
-      // } else {
-      //  setSubmitStatus('error');
-      // }
-    } catch (error) {
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch {
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
-      // Reset status after 5s
-      setTimeout(() => setSubmitStatus('idle'), 5000);
+      setTimeout(() => setSubmitStatus('idle'), 6000);
     }
   };
 
@@ -136,8 +133,13 @@ export default function ContactPage() {
             <div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Follow Us</h3>
               <div className="flex space-x-4">
-                {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
-                  <a key={i} href="#" className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center text-[#1B2A6B] dark:text-gray-300 shadow-sm border border-gray-100 dark:border-gray-700 hover:bg-[#1B2A6B] hover:text-white transition-all duration-300">
+                {[
+                  { Icon: Facebook, href: 'https://www.facebook.com/YDPPakistan', label: 'Facebook' },
+                  { Icon: Twitter, href: 'https://twitter.com/YDPPakistan', label: 'Twitter' },
+                  { Icon: Instagram, href: 'https://www.instagram.com/YDPPakistan', label: 'Instagram' },
+                  { Icon: Linkedin, href: 'https://www.linkedin.com/company/ydp-pakistan', label: 'LinkedIn' },
+                ].map(({ Icon, href, label }) => (
+                  <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center text-[#1B2A6B] dark:text-gray-300 shadow-sm border border-gray-100 dark:border-gray-700 hover:bg-[#1B2A6B] hover:text-white transition-all duration-300">
                     <Icon size={20} />
                   </a>
                 ))}
@@ -274,18 +276,12 @@ export default function ContactPage() {
               </form>
             </motion.div>
 
-            {/* Map Placeholder */}
-            <div className="bg-gray-200 dark:bg-gray-800 rounded-2xl h-80 flex items-center justify-center border border-gray-300 dark:border-gray-700 relative overflow-hidden">
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-100/50 dark:bg-gray-800/50 backdrop-blur-sm z-10">
-                <div className="text-center p-6 bg-white dark:bg-gray-900 rounded-xl shadow-lg">
-                  <MapPin className="w-10 h-10 text-gray-400 mx-auto mb-3" />
-                  <h3 className="font-bold text-gray-900 dark:text-white">Google Maps Embed</h3>
-                  <p className="text-sm text-gray-500">Content Required</p>
-                </div>
-              </div>
+            {/* Map - Islamabad Pakistan */}
+            <div className="rounded-2xl h-80 border border-gray-300 dark:border-gray-700 relative overflow-hidden shadow-md">
               <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m2!1s0x38dfbfd07891722f%3A0x6059515c3bdb02b6!2sIslamabad%2C%20Islamabad%20Capital%20Territory%2C%20Pakistan!5e0!3m2!1sen!2s!4v1714571987541!5m2!1sen!2s" 
-                className="absolute inset-0 w-full h-full border-0 opacity-50" 
+                className="w-full h-full border-0" 
+                title="YDP Location - Islamabad, Pakistan"
                 allowFullScreen={true} 
                 loading="lazy" 
                 referrerPolicy="no-referrer-when-downgrade"

@@ -49,6 +49,16 @@ export async function POST(req: NextRequest) {
       }
     });
 
+    const { createAdminNotification } = await import('@/lib/notifications');
+    await createAdminNotification({
+      title: 'New Volunteer Application',
+      description: `${body.firstName} ${body.lastName} applied to volunteer.`,
+      category: 'VOLUNTEER',
+      priority: 'MEDIUM',
+      link: `/admin/volunteers/${volunteer.id}`,
+      relatedId: volunteer.id,
+    });
+
     return NextResponse.json({ success: true, volunteer }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

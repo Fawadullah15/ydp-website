@@ -24,7 +24,7 @@ export function ProvinceLeadership({ slug, provinceName, accentClass }: { slug: 
 
   const president = leaders.find((leader) => leader.position.toLowerCase().includes('president')) || leaders[0];
   const cabinet = leaders.filter((leader) => leader.id !== president.id);
-  const photo = (leader: Leader) => leader.photo || '/images/hamza-rehman.jpg';
+  const photo = (leader: Leader) => leader.photo || '/images/fallback-profile.png';
 
   return <section>
     <div className="mb-8 flex items-center gap-4"><Users className={`h-8 w-8 ${accentClass}`} /><h2 className="text-3xl font-bold text-gray-900 dark:text-white">Provincial Leadership</h2></div>

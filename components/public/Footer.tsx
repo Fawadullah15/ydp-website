@@ -114,7 +114,7 @@ export default function Footer() {
             <Link prefetch={false} href="/terms" className="text-white/60 hover:text-white text-sm transition-colors">Terms of Service</Link>
           </div>
           <p className="text-white/60 text-sm flex items-center gap-1">
-            Made by <span className="text-red-500">❤️</span> Fawadullah Imraj
+            Made by Fawadullah Imraj
           </p>
         </div>
       </div>

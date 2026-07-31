@@ -19,14 +19,70 @@ export async function POST(request: Request) {
       where: { email }
     })
 
-    if (!user || !user.password || !user.isActive) {
+    if (!user) {
+      // Return generic error to prevent email enumeration
+      return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 })
+    }
+
+    if (!user.isActive) {
+      return NextResponse.json({ error: 'Account is deactivated' }, { status: 403 })
+    }
+
+    // Check lockout status
+    if (user.lockedUntil && user.lockedUntil > new Date()) {
+      const remainingTime = Math.ceil((user.lockedUntil.getTime() - Date.now()) / 60000)
+      return NextResponse.json(
+        { error: `Account is temporarily locked due to multiple failed attempts. Please try again in ${remainingTime} minutes.` },
+        { status: 429 }
+      )
+    }
+
+    if (!user.password) {
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 })
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password)
 
     if (!isPasswordValid) {
+      // Increment failed attempts
+      const newFailedAttempts = user.failedAttempts + 1;
+      let lockedUntil = null;
+      
+      // Lock account after 5 failed attempts for 15 minutes
+      if (newFailedAttempts >= 5) {
+        lockedUntil = new Date(Date.now() + 15 * 60000);
+      }
+
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { 
+          failedAttempts: newFailedAttempts,
+          lockedUntil: lockedUntil
+        }
+      });
+
+      // Log failed attempt for Super Admin notification
+      await prisma.notification.create({
+        data: {
+          title: "Failed Admin Login Attempt",
+          description: `Failed login attempt for email: ${email}`,
+          category: "SECURITY",
+          priority: "HIGH",
+        }
+      });
+
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 })
+    }
+
+    // Reset failed attempts on successful login
+    if (user.failedAttempts > 0) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          failedAttempts: 0,
+          lockedUntil: null
+        }
+      });
     }
 
     // Create JWT token

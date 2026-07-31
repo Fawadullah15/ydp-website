@@ -24,6 +24,8 @@ model User {
   verifyToken       String?   @unique
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
+  failedAttempts    Int       @default(0)
+  lockedUntil       DateTime?
 
   // Relations
   accounts          Account[]
@@ -534,4 +536,22 @@ model NewsletterSubscriber {
   updatedAt DateTime @updatedAt
 
   @@map("newsletter_subscribers")
+}
+
+// =================== NOTIFICATIONS ===================
+
+model Notification {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  category    String   @default("SYSTEM")
+  priority    String   @default("LOW") // LOW, MEDIUM, HIGH, URGENT
+  isRead      Boolean  @default(false)
+  link        String?
+  relatedId   String?
+  metadata    String?  // JSON string
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("notifications")
 }

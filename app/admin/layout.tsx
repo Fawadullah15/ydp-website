@@ -8,6 +8,8 @@ import {
   Settings, Activity, Bell, Menu, X, LogOut, ChevronRight, Rss
 } from 'lucide-react';
 
+import { NotificationBell } from '@/components/admin/AdminNavbar';
+
 const sidebarItems = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
   { name: 'Members', href: '/admin/members', icon: Users },
@@ -145,10 +147,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
 
           <div className="flex items-center gap-3">
-            <button className="relative p-2 text-gray-400 hover:text-gray-200 rounded-lg hover:bg-gray-800 transition-colors">
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-gray-900"></span>
-            </button>
+            <NotificationBell />
             <Link 
               href="/" 
               className="text-xs text-gray-500 hover:text-gray-300 hidden sm:block transition-colors"

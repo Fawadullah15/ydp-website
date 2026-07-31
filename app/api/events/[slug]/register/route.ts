@@ -47,6 +47,16 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ slu
       }
     });
 
+    const { createAdminNotification } = await import('@/lib/notifications');
+    await createAdminNotification({
+      title: 'New Event Registration',
+      description: `${parsed.data.name} registered for ${event.title}.`,
+      category: 'EVENT',
+      priority: 'LOW',
+      link: `/admin/events/${event.slug}`,
+      relatedId: registration.id,
+    });
+
     await sendMail(
       parsed.data.email, 
       `Registration Confirmed: ${event.title}`, 

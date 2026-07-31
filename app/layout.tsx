@@ -9,7 +9,7 @@ const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  metadataBase: new URL('http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://www.ydp.pk'),
   title: {
     template: '%s | Youth Development Program (YDP)',
     default: 'Youth Development Program (YDP)',

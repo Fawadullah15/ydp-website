@@ -37,6 +37,16 @@ export async function POST(req: NextRequest) {
       }
     });
 
+    const { createAdminNotification } = await import('@/lib/notifications');
+    await createAdminNotification({
+      title: 'New Membership Application',
+      description: `${data.firstName} ${data.lastName} applied for membership.`,
+      category: 'MEMBERSHIP',
+      priority: 'MEDIUM',
+      link: `/admin/members/${member.id}`,
+      relatedId: member.id,
+    });
+
     await sendMail(data.email, 'Welcome to YDP - Application Received', welcomeEmail(data.firstName));
 
     return NextResponse.json({ success: true, member: { id: member.id, memberId: member.memberId, status: member.status } }, { status: 201 });
