@@ -3,8 +3,13 @@ import { prisma } from '@/lib/prisma';
 type ContentPageProps = { title: string; settingKey: string; description: string };
 
 export async function ContentPage({ title, settingKey, description }: ContentPageProps) {
-  const setting = await prisma.setting.findUnique({ where: { key: settingKey }, select: { value: true } });
-  const content = setting?.value?.trim();
+  let content: string | undefined;
+  try {
+    const setting = await prisma.setting.findUnique({ where: { key: settingKey }, select: { value: true } });
+    content = setting?.value?.trim();
+  } catch {
+    content = undefined;
+  }
 
   return (
     <main className="min-h-[60vh] bg-slate-50 px-4 py-20 dark:bg-slate-900">
