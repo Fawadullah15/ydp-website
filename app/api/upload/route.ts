@@ -30,9 +30,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid file type' }, { status: 400 });
     }
 
-    // Use Vercel Blob for storage
+    // Use Vercel Blob for storage - addRandomSuffix ensures unique filenames on re-upload
     const blob = await put(file.name, file, {
       access: 'public',
+      addRandomSuffix: true,
     });
 
     return NextResponse.json({ url: blob.url });

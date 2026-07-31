@@ -3,8 +3,8 @@ import { z } from 'zod';
 export const leadershipSchema = z.object({
   name: z.string().trim().min(2),
   position: z.string().trim().min(2),
-  bio: z.string().trim().max(2000).optional().or(z.literal('')),
-  photo: z.string().trim().max(2048).optional().or(z.literal('')),
+  bio: z.string().trim().max(5000).optional().or(z.literal('')),
+  photo: z.string().trim().max(4096).optional().or(z.literal('')),
   email: z.string().trim().email().optional().or(z.literal('')),
   phone: z.string().trim().max(50).optional().or(z.literal('')),
   facebook: z.string().url().optional().or(z.literal('')),
