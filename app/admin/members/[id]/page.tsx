@@ -58,7 +58,7 @@ export default function MemberDetailPage() {
   const uploadPhoto = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
-    if (!file.type.startsWith('image/') || file.size > 10 * 1024 * 1024) { setError('Choose an image smaller than 10 MB.'); return; }
+    if (!file.type.startsWith('image/') || file.size > 4.5 * 1024 * 1024) { setError('Choose an image smaller than 4.5 MB.'); return; }
     setUploading(true); setError('');
     try {
       const payload = new FormData(); payload.append('file', file);
@@ -78,8 +78,15 @@ export default function MemberDetailPage() {
         method: 'PATCH', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, cnic: formData.cnic || null, address: formData.address || null, city: formData.city || null, province: formData.province || null, occupation: formData.occupation || null, photo: formData.photo || null, dateOfBirth: formData.dateOfBirth ? new Date(formData.dateOfBirth).toISOString() : null }),
       });
-      const body = (await response.json()) as { error?: string };
-      if (!response.ok) throw new Error(body.error || 'Unable to save member changes.');
+      const body = (await response.json()) as { error?: string; details?: any };
+      if (!response.ok) {
+        let errorMsg = body.error || 'Unable to save member changes.';
+        if (body.details && body.details.fieldErrors) {
+          const firstField = Object.keys(body.details.fieldErrors)[0];
+          errorMsg = `${firstField}: ${body.details.fieldErrors[firstField][0]}`;
+        }
+        throw new Error(errorMsg);
+      }
       setSuccess('Member details saved successfully.');
     } catch (saveError) { setError(saveError instanceof Error ? saveError.message : 'Unable to save member changes.'); }
     finally { setSaving(false); }

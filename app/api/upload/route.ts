@@ -25,9 +25,9 @@ export async function POST(req: NextRequest) {
     }
 
     // Validate type
-    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'application/pdf', 'video/mp4', 'video/webm'];
-    if (!validTypes.includes(file.type) && file.type !== '') {
-      return NextResponse.json({ error: 'Invalid file type: ' + file.type }, { status: 400 });
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf', 'video/mp4', 'video/webm'];
+    if (!validTypes.includes(file.type)) {
+      return NextResponse.json({ error: 'Invalid file type' }, { status: 400 });
     }
 
     // Use Vercel Blob for storage - addRandomSuffix ensures unique filenames on re-upload
