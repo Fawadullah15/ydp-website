@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('Starting seed process for dummy data...');
+  console.log('Starting seed process for reduced dummy data...');
 
   // 1. Get provinces
   const provinces = await prisma.province.findMany();
@@ -18,12 +18,20 @@ async function main() {
   const balochistan = provinces.find(p => p.name.includes('Balochistan'));
   const kashmir = provinces.find(p => p.name.includes('Kashmir') || p.name.includes('AJK'));
 
-  // Target counts
-  const punjabTarget = 1045;
-  const sindhTarget = 732;
-  const kpkTarget = 483;
-  const balochistanTarget = 194;
-  const kashmirTarget = 96;
+  // Target counts (reduced to hundreds)
+  const punjabTarget = 105;
+  const sindhTarget = 73;
+  const kpkTarget = 48;
+  const balochistanTarget = 19;
+  const kashmirTarget = 10;
+
+  console.log('Clearing old fake data...');
+  await prisma.member.deleteMany({
+    where: { memberId: { startsWith: 'YDP-FAKE' } }
+  });
+  await prisma.volunteerApplication.deleteMany({
+    where: { email: { startsWith: 'fake_volunteer_' } }
+  });
 
   console.log('Seeding Members...');
 
@@ -51,12 +59,6 @@ async function main() {
   ];
 
   if (membersToInsert.length > 0) {
-    // Delete existing fake members if any (to make script rerunnable)
-    await prisma.member.deleteMany({
-      where: { memberId: { startsWith: 'YDP-FAKE' } }
-    });
-    
-    // Chunk insert for members
     const chunkSize = 500;
     for (let i = 0; i < membersToInsert.length; i += chunkSize) {
       await prisma.member.createMany({
@@ -69,8 +71,8 @@ async function main() {
 
   console.log('Seeding Volunteers...');
 
-  // Volunteer target 5392
-  const volunteersToInsert = Array.from({ length: 5392 }).map((_, i) => ({
+  // Volunteer target 539 (reduced)
+  const volunteersToInsert = Array.from({ length: 539 }).map((_, i) => ({
     firstName: `Volunteer`,
     lastName: `${i}`,
     email: `fake_volunteer_${i}@example.com`,
@@ -82,11 +84,7 @@ async function main() {
   }));
 
   if (volunteersToInsert.length > 0) {
-    await prisma.volunteerApplication.deleteMany({
-      where: { email: { startsWith: 'fake_volunteer_' } }
-    });
-
-    const chunkSize = 1000;
+    const chunkSize = 500;
     for (let i = 0; i < volunteersToInsert.length; i += chunkSize) {
       await prisma.volunteerApplication.createMany({
         data: volunteersToInsert.slice(i, i + chunkSize),
@@ -96,31 +94,8 @@ async function main() {
     }
   }
 
-  // Events (we just need 34 total)
-  console.log('Seeding Events...');
-  const currentEvents = await prisma.event.count();
-  if (currentEvents < 34) {
-    const defaultAuthor = await prisma.user.findFirst();
-    if (!defaultAuthor) {
-       console.log('No users found to author events. Skipping events...');
-    } else {
-      const eventsToInsert = Array.from({ length: 34 - currentEvents }).map((_, i) => ({
-        title: `Past Fake Event ${i}`,
-        slug: `past-fake-event-${i}-${Date.now()}`,
-        status: 'COMPLETED',
-        isPublic: true,
-        startDate: new Date(Date.now() - 10000000000),
-        endDate: new Date(Date.now() - 9000000000),
-        city: 'Islamabad',
-        authorId: defaultAuthor.id,
-      }));
-      await prisma.event.createMany({
-        data: eventsToInsert,
-        skipDuplicates: true,
-      });
-      console.log(`Inserted ${eventsToInsert.length} events...`);
-    }
-  }
+  // Events (we leave events as is since there are only 34 of them)
+  console.log('Events are kept as is (only 34 rows).');
 
   console.log('Done!');
 }
