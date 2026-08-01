@@ -27,12 +27,17 @@ function UploadModal({
     setUploading(true);
     try {
       for (const file of files) {
+        if (file.size > 4.5 * 1024 * 1024) {
+          throw new Error(`File ${file.name} is too large. Max size is 4.5MB due to server limits. Please compress it first.`);
+        }
         const data = new FormData();
         data.append('file', file);
         const uploadRes = await fetch('/api/upload', { method: 'POST', body: data });
         if (!uploadRes.ok) {
-          const errData = await uploadRes.json().catch(() => ({}));
-          throw new Error(errData.error || 'Upload failed');
+          const text = await uploadRes.text();
+          let errData: any = {};
+          try { errData = JSON.parse(text); } catch(e) {}
+          throw new Error(errData.error || `Upload failed (Status: ${uploadRes.status}). The file might be too large.`);
         }
         const { url } = await uploadRes.json();
         const res = await fetch('/api/gallery', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
