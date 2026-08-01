@@ -23,12 +23,12 @@ const LeaderCard = ({ leader, delay, onSelect }: { leader: any, delay: number, o
       aria-label={`View ${leader.name}'s profile`}
       className="group flex h-full flex-col overflow-hidden rounded-xl border border-gray-100 bg-white shadow-lg transition-all duration-300 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800"
     >
-      <div className="relative flex h-80 w-full shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br from-[#1B2A6B] to-[#00BCD4] sm:h-[21rem] lg:h-[22rem]">
+      <div className="relative flex h-48 w-full shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br from-[#1B2A6B] to-[#00BCD4] sm:h-80 lg:h-[22rem]">
         <Image
           src={imageSrc}
           alt={`${leader.name} profile photo`}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
+          sizes="(max-width: 640px) 50vw, (max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
           className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
           onError={() => setImgError(true)}
         />
@@ -39,11 +39,11 @@ const LeaderCard = ({ leader, delay, onSelect }: { leader: any, delay: number, o
           {leader.linkedin && <a onClick={(event) => event.stopPropagation()} href={leader.linkedin} target="_blank" rel="noreferrer" className="text-white hover:text-[#00BCD4] transition-colors" aria-label={`${leader.name} on LinkedIn`}><Linkedin size={20} /></a>}
         </div>
       </div>
-      <div className="flex min-h-[178px] flex-col p-6">
-        {leader.province && <div className="text-xs font-semibold text-[#00BCD4] mb-1 uppercase tracking-wider">{leader.province}</div>}
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">{leader.name}</h3>
-        <p className="mb-3 min-h-6 text-[#1B2A6B] font-medium dark:text-[#4CAF50]">{leader.role}</p>
-        <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-3">{leader.bio}</p>
+      <div className="flex min-h-[140px] sm:min-h-[178px] flex-col p-4 sm:p-6">
+        {leader.province && <div className="text-[10px] sm:text-xs font-semibold text-[#00BCD4] mb-1 uppercase tracking-wider">{leader.province}</div>}
+        <h3 className="text-base sm:text-xl font-bold text-gray-900 dark:text-white mb-1 leading-tight">{leader.name}</h3>
+        <p className="mb-2 sm:mb-3 min-h-6 text-sm sm:text-base text-[#1B2A6B] font-medium dark:text-[#4CAF50] leading-tight">{leader.role}</p>
+        <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm line-clamp-3">{leader.bio}</p>
       </div>
     </motion.div>
   );
@@ -144,7 +144,7 @@ export default function LeadershipPage() {
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white">{section.title}</h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 md:gap-8">
               {(section.data || []).map((leader: any, i: number) => (
                 <LeaderCard key={leader.id} leader={leader} delay={i * 0.1} onSelect={setSelectedLeader} />
               ))}
