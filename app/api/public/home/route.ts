@@ -34,10 +34,10 @@ export async function GET() {
     return NextResponse.json({
       events, news, provinces, leaders, gallery, testimonials, sponsors,
       stats: {
-        members: displayStat('stat_members', 2550 + memberCount),
-        provinces: displayStat('stat_provinces', provinces.length > 0 ? provinces.length : 5),
-        events: displayStat('stat_events', 34 + eventCount),
-        volunteers: displayStat('stat_volunteers', 5392 + volunteerCount),
+        members: displayStat('stat_members', memberCount),
+        provinces: displayStat('stat_provinces', provinces.length),
+        events: displayStat('stat_events', eventCount),
+        volunteers: displayStat('stat_volunteers', volunteerCount),
       },
       settings: siteSettings,
     }, { headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300' } });

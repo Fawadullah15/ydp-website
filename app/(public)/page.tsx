@@ -338,12 +338,7 @@ export default function HomePage() {
                 <div className="border-t border-white/20 pt-2 md:pt-4 mt-auto">
                   <p className="text-[8px] md:text-xs text-slate-300 uppercase tracking-wider mb-0.5 md:mb-1">Members</p>
                   <p className="text-white font-medium text-xs md:text-base">
-                    {prov._count?.members > 0 ? prov._count.members : 
-                      prov.name.includes('Punjab') ? 1045 : 
-                      prov.name.includes('Sindh') ? 732 : 
-                      prov.name.includes('Pakhtunkhwa') || prov.name.includes('KPK') ? 483 : 
-                      prov.name.includes('Balochistan') ? 194 : 
-                      96}+ members
+                    {prov._count?.members || 0} members
                   </p>
                 </div>
               </motion.div>
