@@ -268,7 +268,7 @@ export default function AboutPage() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8"
         >
           {[
             { icon: Users, title: "Youth Leadership", color: "text-[#00BCD4]", bg: "bg-cyan-50 dark:bg-cyan-900/20" },
@@ -281,12 +281,12 @@ export default function AboutPage() {
             <motion.div
               key={idx}
               variants={fadeInUp}
-              className="p-8 rounded-2xl bg-white dark:bg-slate-800 shadow-lg hover:shadow-xl transition-shadow border border-slate-100 dark:border-slate-700 text-center"
+              className="p-4 sm:p-8 rounded-2xl bg-white dark:bg-slate-800 shadow-lg hover:shadow-xl transition-shadow border border-slate-100 dark:border-slate-700 text-center"
             >
-              <div className={`w-16 h-16 mx-auto rounded-full ${value.bg} flex items-center justify-center mb-6`}>
-                <value.icon className={`w-8 h-8 ${value.color}`} />
+              <div className={`w-12 h-12 sm:w-16 sm:h-16 mx-auto rounded-full ${value.bg} flex items-center justify-center mb-4 sm:mb-6`}>
+                <value.icon className={`w-6 h-6 sm:w-8 sm:h-8 ${value.color}`} />
               </div>
-              <h3 className="text-xl font-bold text-[#1B2A6B] dark:text-white mb-3">
+              <h3 className="text-sm sm:text-xl font-bold text-[#1B2A6B] dark:text-white mb-2 sm:mb-3">
                 {value.title}
               </h3>
             </motion.div>
@@ -345,7 +345,7 @@ export default function AboutPage() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
           {[
             { title: "Democratic Processes", desc: "Regular elections and consensus-based decision making." },
             { title: "Financial Transparency", desc: "Strict auditing and open financial reporting." },
@@ -359,12 +359,12 @@ export default function AboutPage() {
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeInUp}
-              className="flex items-start space-x-4 bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700"
+              className="flex items-start space-x-3 sm:space-x-4 bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700"
             >
-              <Scale className="w-8 h-8 text-[#00BCD4] shrink-0" />
+              <Scale className="w-6 h-6 sm:w-8 sm:h-8 text-[#00BCD4] shrink-0" />
               <div>
-                <h4 className="text-lg font-bold text-[#1B2A6B] dark:text-white mb-2">{item.title}</h4>
-                <p className="text-slate-600 dark:text-slate-400">{item.desc}</p>
+                <h4 className="text-base sm:text-lg font-bold text-[#1B2A6B] dark:text-white mb-1 sm:mb-2">{item.title}</h4>
+                <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400">{item.desc}</p>
               </div>
             </motion.div>
           ))}

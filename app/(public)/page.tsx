@@ -158,7 +158,7 @@ export default function HomePage() {
 
       {/* 2. MISSION & VISION CARDS */}
       <section className="relative z-20 mx-auto mb-24 max-w-7xl px-4 pt-8 sm:px-6 md:pt-12 lg:px-8">
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -273,7 +273,7 @@ export default function HomePage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8"
           >
             {[
               { icon: Users, title: "Leadership Training", desc: "Leadership training workshops, Youth parliaments.", color: "text-[#1B2A6B]", bg: "bg-blue-100" },
@@ -322,7 +322,7 @@ export default function HomePage() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-6">
             {provinces.length > 0 ? provinces.map((prov: any, idx: number) => (
               <motion.div
                 key={prov.id || idx}
@@ -517,7 +517,7 @@ export default function HomePage() {
             </motion.div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
             {upcomingEvents.map((item: any, idx: number) => {
               return (
               <motion.div
@@ -594,7 +594,7 @@ export default function HomePage() {
             </motion.div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
             {latestNews.map((item: any, idx: number) => {
               return (
               <motion.div
@@ -653,7 +653,7 @@ export default function HomePage() {
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 md:gap-4">
             {galleryPreview.map((item, idx) => (
               <Link href="/gallery" key={item.id} className="block">
               <motion.div
