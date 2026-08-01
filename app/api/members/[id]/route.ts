@@ -12,7 +12,7 @@ const memberUpdateSchema = z.object({
   city: z.string().trim().min(1).nullable().optional(), province: z.string().trim().min(1).nullable().optional(),
   address: z.string().trim().min(5).nullable().optional(), occupation: z.string().trim().min(1).nullable().optional(),
   dateOfBirth: z.string().datetime().nullable().optional(),
-  photo: z.string().regex(/^\/(?:api\/)?uploads\/[A-Za-z0-9._-]+$/, 'Invalid upload path').nullable().optional(), membershipType: z.string().trim().min(1).optional(),
+  photo: z.string().trim().max(4096).nullable().optional(), membershipType: z.string().trim().min(1).optional(),
   status: z.enum(['ACTIVE', 'PENDING', 'SUSPENDED']).optional(),
 });
 
