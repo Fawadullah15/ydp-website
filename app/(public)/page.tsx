@@ -415,7 +415,7 @@ export default function HomePage() {
                   <div className="absolute bottom-0 inset-x-0 p-3 md:p-6">
                     <h3 className="text-sm md:text-xl font-bold text-white mb-0.5 md:mb-1 drop-shadow-md leading-tight">{leader.name}</h3>
                     <p className="text-[#FFC107] font-bold drop-shadow-md text-[10px] md:text-sm">{leader.position}</p>
-                    {leader.bio && <p className="text-slate-200 text-[9px] md:text-xs font-medium drop-shadow-md line-clamp-2 mt-1 hidden md:block">{leader.bio}</p>}
+                    {leader.bio && <div className="hidden md:block mt-1"><p className="text-slate-200 text-[9px] md:text-xs font-medium drop-shadow-md line-clamp-2">{leader.bio}</p></div>}
                   </div>
                 </div>
               </motion.div>
