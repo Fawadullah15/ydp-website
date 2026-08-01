@@ -76,7 +76,7 @@ async function main() {
     email: `fake_volunteer_${i}@example.com`,
     phone: `+92300${Math.floor(1000000 + Math.random() * 9000000)}`,
     city: 'Lahore',
-    interests: 'Community Service',
+    skills: 'Community Service',
     availability: 'Weekends',
     status: 'APPROVED',
   }));
