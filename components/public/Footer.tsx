@@ -114,7 +114,7 @@ export default function Footer() {
             <Link prefetch={false} href="/terms" className="text-white/60 hover:text-white text-sm transition-colors">Terms of Service</Link>
           </div>
           <p className="text-white/60 text-sm flex items-center gap-1">
-            Made by Fawadullah Imraj
+            Made by <a href="https://quantumai-snowy.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline">Quantum AI</a>
           </p>
         </div>
       </div>
