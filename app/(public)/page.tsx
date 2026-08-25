@@ -77,7 +77,7 @@ export default function HomePage() {
       
       {/* 1. HERO SECTION */}
       <section className="relative flex min-h-[520px] md:min-h-[680px] md:min-h-screen w-full items-center overflow-hidden bg-[#0c1b4d]">
-        <div className="absolute inset-0 bg-[url('/images/hero-bg-v3.png')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 bg-[url('/images/hero-bg-v4.jpg')] bg-cover bg-center md:bg-[center_top_-2rem]"></div>
         <div className="absolute inset-0 bg-[#081534]/72"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-[#081534]/94 via-[#081534]/76 to-[#081534]/28"></div>
 
