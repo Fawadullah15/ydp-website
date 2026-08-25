@@ -145,7 +145,7 @@ export default function GalleryPage() {
             <p className="text-gray-500 dark:text-gray-500">Gallery content will appear here once added from the admin panel.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4">
             <AnimatePresence>
               {filteredMedia.map((item, index) => (
                 <motion.div
@@ -169,10 +169,10 @@ export default function GalleryPage() {
                   )}
 
                   {/* Overlay */}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-white p-4 text-center z-10">
-                    {item.type === 'video' ? <Play className="w-10 h-10 mb-2" /> : <ImageIcon className="w-8 h-8 mb-2" />}
-                    <h3 className="font-semibold text-sm line-clamp-2">{item.title}</h3>
-                    <p className="text-xs text-gray-300 mt-1">{item.album}</p>
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-white p-1 md:p-4 text-center z-10">
+                    {item.type === 'video' ? <Play className="w-6 h-6 md:w-10 md:h-10 mb-1 md:mb-2" /> : <ImageIcon className="w-5 h-5 md:w-8 md:h-8 mb-1 md:mb-2" />}
+                    <h3 className="font-semibold text-[10px] md:text-sm leading-tight line-clamp-2">{item.title}</h3>
+                    <p className="text-[9px] md:text-xs text-gray-300 mt-0.5 md:mt-1">{item.album}</p>
                   </div>
                 </motion.div>
               ))}
