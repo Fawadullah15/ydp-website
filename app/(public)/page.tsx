@@ -213,7 +213,7 @@ export default function HomePage() {
             >
               <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl aspect-[4/3]">
                 <Image
-                  src="/images/gallery/group-photo-1.jpg"
+                  src="/images/who-we-are.jpg"
                   alt="YDP Members"
                   fill
                   className="object-cover"
