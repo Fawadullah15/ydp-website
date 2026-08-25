@@ -189,58 +189,70 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: '100vh' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="fixed inset-0 top-[72px] z-40 overflow-y-auto border-t border-white/10 bg-[#0b1741]/95 backdrop-blur-2xl lg:hidden"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-x-0 top-[68px] bottom-0 z-40 overflow-y-auto border-t border-white/10 bg-[#0c1b4d]/98 backdrop-blur-2xl lg:hidden pb-12"
           >
-            <div className="container-custom flex flex-col gap-6 py-7">
-              <div className="flex flex-col gap-2">
-                {NAV_LINKS.slice(0, 3).map((link) => (
-                  <Link prefetch={false}
-                    key={link.name}
-                    href={link.href}
-                    onClick={closeMenu}
-                    className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-lg font-semibold text-white transition hover:border-cyan-200/30 hover:bg-white/10"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-                
-                {/* Mobile Dropdowns */}
-                <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-                  <p className="mb-3 flex items-center justify-between text-lg font-semibold text-white">
-                    Provinces
-                  </p>
-                  <div className="flex flex-col gap-2 pl-4">
-                    {PROVINCES.map((p) => (
-                      <Link prefetch={false} key={p.name} href={p.href} onClick={closeMenu} className="text-sm text-slate-300 transition hover:text-[#ffc107]">
-                        {p.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-
-                {NAV_LINKS.slice(3).map((link) => (
-                  <Link prefetch={false}
-                    key={link.name}
-                    href={link.href}
-                    onClick={closeMenu}
-                    className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-lg font-semibold text-white transition hover:border-cyan-200/30 hover:bg-white/10"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </div>
-              
+            <div className="container-custom flex flex-col gap-4 py-4 px-4">
+              {/* Primary Action Button at Top */}
               <Link prefetch={false}
                 href="/membership"
                 onClick={closeMenu}
-                className="btn-primary w-full py-4 text-lg justify-center mt-4"
+                className="flex items-center justify-center gap-2 rounded-xl bg-[#f7c948] py-2.5 px-4 text-sm font-extrabold text-[#0c1b4d] shadow-md transition duration-200 hover:bg-[#ffda6a]"
               >
                 Join Us
               </Link>
+
+              {/* Compact Nav Links Grid */}
+              <div className="grid grid-cols-2 gap-2">
+                {NAV_LINKS.map((link) => {
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link prefetch={false}
+                      key={link.name}
+                      href={link.href}
+                      onClick={closeMenu}
+                      className={`flex items-center justify-between rounded-lg px-3.5 py-2 text-sm font-semibold transition ${
+                        isActive
+                          ? 'bg-[#f7c948]/15 text-[#f7c948] border border-[#f7c948]/30 font-bold'
+                          : 'bg-white/5 text-white/90 border border-white/10 hover:bg-white/10 hover:text-white'
+                      }`}
+                    >
+                      <span>{link.name}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+
+              {/* Provinces Section */}
+              <div className="rounded-xl border border-white/10 bg-white/5 p-3 mt-1">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-cyan-300">
+                    Provinces
+                  </span>
+                </div>
+                <div className="grid grid-cols-3 gap-1.5">
+                  {PROVINCES.map((p) => {
+                    const isActive = pathname === p.href;
+                    return (
+                      <Link prefetch={false}
+                        key={p.name}
+                        href={p.href}
+                        onClick={closeMenu}
+                        className={`text-center rounded-md px-2 py-1.5 text-xs font-medium transition ${
+                          isActive
+                            ? 'bg-[#f7c948] text-[#0c1b4d] font-bold'
+                            : 'bg-white/5 text-slate-300 hover:bg-white/15 hover:text-white'
+                        }`}
+                      >
+                        {p.name}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </motion.div>
         )}
